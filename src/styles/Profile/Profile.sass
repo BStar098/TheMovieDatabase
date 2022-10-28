@@ -1,0 +1,71 @@
+.profileContainer
+    height: 100vh
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    gap: 5%
+    >.profileTitle
+        width: 100%
+        height: 40%
+        background: rgb(1,180,228)
+        background: linear-gradient(0deg, rgba(1,180,228,1) 0%, rgba(13,37,63,1) 50%)
+        >.svgContainer
+            height: 100%
+            width: 100%
+            position: relative
+            background-position: center -80px
+            display: flex
+            justify-content: flex-start
+            align-items: center
+            color: #e6e5c2
+            gap:1%
+            box-shadow: 2px 5px 4px 3px #05597076
+            >img,h1
+                margin-top: 5%
+            >img
+                border-radius: 30%
+                margin-left: 1%
+                box-shadow: 6px 6px 5px rgba(0, 0, 0, 0.587)
+            >h1
+                font-size: 300%
+                text-shadow: 5px 5px rgba(0, 0, 0, 0.587)
+.profileFavorites
+    height: 60%
+    width: 100%
+    >.favoritesTitle
+        >h1
+            text-align: center
+            filter: drop-shadow(3px 3px #0000005d)
+            background: -webkit-linear-gradient(rgba(1,180,228,1), rgba(13,37,63,1))
+            -webkit-background-clip: text
+            -webkit-text-fill-color: transparent
+            font-size: 300%
+.favoritesContainer
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    gap: 100px
+    width: 100%
+    >a
+        text-decoration: none
+        color: rgb(13,37,63)
+        >.movieProfileContainer
+            position: relative
+            transition: 0.5s ease
+            >a
+                >.deleteIcon
+                    position: absolute
+                    transform: scale(2)
+                    left: 80%
+                    top: 5%
+                    color: #e4018d90
+                    transition: 0.5s ease
+                    z-index: 200
+            
+            >a
+                >.deleteIcon:hover
+                    transform: scale(2.8)
+                    transition: 0.5s ease
+        >.movieProfileContainer:hover
+            transform: scale(1.1)
+            transition: 0.5s ease

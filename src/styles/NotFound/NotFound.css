@@ -1,0 +1,21 @@
+.notFound {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  background: rgb(13, 37, 63);
+}
+.notFound > h1 {
+  background: linear-gradient(90deg, rgb(13, 37, 63) 0%, rgb(1, 180, 228) 35%, rgb(144, 206, 161));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 500%;
+  filter: drop-shadow(5px 6px 1px rgba(6, 6, 57, 0.5));
+}
+
+.sadFace {
+  transform: scale(5);
+  color: rgb(144, 206, 161);
+  filter: drop-shadow(1px 1px 0.5px rgba(40, 58, 45, 0.5));
+}/*# sourceMappingURL=NotFound.css.map */

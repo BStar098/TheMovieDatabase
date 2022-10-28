@@ -1,0 +1,57 @@
+.signUpContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgb(3, 37, 65);
+}
+
+.signUpInputs {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 20px;
+  padding: 1%;
+  background: #033f70;
+  box-shadow: 6px 6px 3px 2px rgba(0, 0, 0, 0.3176470588);
+}
+.signUpInputs > button {
+  background: rgb(3, 37, 65);
+  color: white;
+  font-size: 110%;
+}
+.signUpInputs > button:hover {
+  background: #0860a8;
+}
+.signUpInputs > input {
+  font-size: 150%;
+  border-radius: 5px;
+  background: rgb(255, 255, 255);
+  border: none;
+  text-shadow: 2px 2px rgba(1, 0, 0, 0.2784313725);
+}
+.signUpInputs > input::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.649);
+}
+.signUpInputs > input:-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.649);
+}
+.signUpInputs > input::placeholder {
+  color: rgba(0, 0, 0, 0.649);
+}
+.signUpInputs > input:focus {
+  outline: none;
+}
+.signUpInputs > svg {
+  height: 65%;
+  width: 100%;
+  color: white;
+  border-radius: 20px;
+}/*# sourceMappingURL=UserAccess.css.map */
