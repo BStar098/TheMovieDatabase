@@ -9,7 +9,9 @@ import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import TMDB from "../styles/blue_square_1-5bdc75aaebeb75dc7ae79426ddd9be3b2be1e342510f8202baf6bffa71d7f5c4.svg";
-import axios from "axios";
+import { auth } from "../config/firebase";
+import { signOut } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Search = styled("div")(({ theme }) => ({
   position: "sticky",
@@ -55,15 +57,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchAppBar({
   searchHandler,
-  setPage,
-  setUser,
-  user,
+  setPage
 }) {
-  const logOutHandler = () => {
-    axios.get("/user/logOut").then(() => {
-      setUser("");
-      alert(`You've been logged out successfully!`);
-    });
+  const [user,loading] = useAuthState(auth)
+  const logOutHandler = async () => {
+    try {
+      await signOut(auth)
+      alert(
+        'Signed out succesfully'
+      )
+    } catch (error) {
+      console.error(error)
+    }
   };
   return (
     <Box sx={{ flexGrow: 1 }}>

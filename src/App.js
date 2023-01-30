@@ -31,12 +31,7 @@ function App() {
       navigation("/");
     }
     setInputValue(e.target.value.replace(" ", "+"));
-  };
-  useEffect(() => {
-    axios.get("/user/me").then((username) => {
-      if (username) setUser(username);
-    });
-  }, []);
+  }; 
   useEffect(() => {
     if (inputValue) {
       axios
@@ -70,12 +65,12 @@ function App() {
           path="/"
           element={<MoviesGrid {...movies} user={user} />}
         ></Route>
-        <Route path="404" element={<NotFound />}></Route>
-        <Route path="*" element={<Navigate to="404" />}></Route>
         <Route path="/:movieId" element={<Header user={user} />}></Route>
         <Route path="/logIn" element={<LogIn setUser={setUser} />}></Route>
         <Route path="/signUp" element={<SignUp />}></Route>
         <Route path="/me" element={<Profile />}></Route>
+        <Route path="404" element={<NotFound />}></Route>
+        <Route path="*" element={<Navigate to="404" />}></Route>
       </Routes>
       <Footer
         numberOfPages={movies.total_pages}
