@@ -8,49 +8,15 @@ import { DeleteForever } from "@mui/icons-material";
 import { imageUrl } from "./MoviesGrid";
 import { Link, Navigate } from "react-router-dom";
 import { apiKey } from "../App";
+import { auth } from "../config/firebase";
+import {useAuthState} from 'react-firebase-hooks/auth'
 
 function Profile() {
   const [userName, setUserName] = useState("");
   const [favorites, setFavorites] = useState([]);
   const [moviesArray, setMoviesArray] = useState([]);
 
-  useEffect(() => {
-    axios.get("/user/me").then((username) => {
-      setUserName(username.data.toString());
-    });
-  }, []);
-  useEffect(() => {
-    if (userName) {
-      axios.get(`/user/${userName}/favorites`).then((favorites) => {
-        if (favorites) {
-          setFavorites(favorites.data);
-        }
-      });
-    }
-  }, [userName]);
-  useEffect(() => {
-    favorites.map((movieId) => {
-      axios
-        .get(
-          `https://api.themoviedb.org/3/movie/${movieId}${apiKey}&language=en-US
-      `
-        )
-        .then((movie) => {
-          setMoviesArray((moviesArray) => [...moviesArray, movie.data]);
-        });
-    });
-  }, [favorites]);
-
-  const deleteHandler = (e) => {
-    axios
-      .put(`/user/favorites/${userName}/${e.target.id}`)
-      .then((favorites) => favorites.data)
-      .then((favoritesArray) => {
-        setFavorites(favoritesArray);
-        window.location.reload();
-        alert("The movie was removed successfully");
-      });
-  };
+  const [user,loading] = useAuthState(auth)
 
   return (
     <div className="profileContainer">
@@ -60,12 +26,12 @@ function Profile() {
           style={{ backgroundImage: `url(${profileBg})` }}
         >
           <img src={profileLogo} alt="profileLogo"></img>
-          <h1>{userName.toUpperCase()}</h1>
+          <h1>{user?.email.split('@')[0].toUpperCase()}</h1>
         </div>
       </div>
       <div className="profileFavorites">
         <div className="favoritesTitle">
-          <h1>{userName.toUpperCase()}'s Favorites</h1>
+          <h1>{user?.email.split('@')[0].toUpperCase()}'s Favorites</h1>
         </div>
         <div className="favoritesContainer">
           {moviesArray.length === favorites.length ? (
@@ -79,7 +45,6 @@ function Profile() {
                   <div className="movieProfileContainer">
                     <Link to="">
                       <DeleteForever
-                        onClick={deleteHandler}
                         id={el.id}
                         className="deleteIcon"
                       />

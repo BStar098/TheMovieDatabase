@@ -2,34 +2,35 @@ import { React, useState } from "react";
 import "../styles/UserAccess/UserAccess.css";
 import { Button } from "@mui/material";
 import { Person } from "@mui/icons-material";
-import axios from "axios";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase";
 import { useNavigate } from "react-router";
 
 function SignUp() {
-  const navigate = useNavigate();
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate()
+  const [user, setUser] = useState({email:'',password:''});
   const passwordInputHandler = (e) => {
-    setPassword(e.target.value);
+    setUser((user)=>{return {...user,password:e.target.value}})
   };
-  const usernameInputHandler = (e) => {
-    setUserName(e.target.value);
+  const emailInputHandler = (e) => {
+    setUser((user)=>{return {...user,email:e.target.value}})
   };
 
-  const signUpHandler = (e) => {
-    axios
-      .post("/user/signUp", { username, password })
-      .then(() => {
-        navigate("/logIn");
-      })
-      .catch((error) => console.error(error));
+  const signUpHandler = async () => {
+    try {
+      const userData= await createUserWithEmailAndPassword(auth, user.email, user.password)
+      navigate('/me')
+    } catch (error) {
+      console.error(error)
+    }
   };
+  console.log(user)
   return (
     <div className="signUpContainer">
       <form className="signUpInputs">
         <Person fontSize="inherit" />
         <input
-          onChange={usernameInputHandler}
+          onChange={emailInputHandler}
           type="text"
           placeholder="Username.."
         ></input>

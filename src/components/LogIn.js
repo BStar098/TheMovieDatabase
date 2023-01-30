@@ -3,34 +3,34 @@ import { useNavigate } from "react-router";
 import "../styles/UserAccess/UserAccess.css";
 import { Person } from "@mui/icons-material";
 import { Button } from "@mui/material";
-import axios from "axios";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase";
 
-function LogIn({ setUser }) {
+
+function LogIn() {
   const navigate = useNavigate();
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({email:'',password:''});
+
   const passwordInputHandler = (e) => {
-    setPassword(e.target.value);
+    setUser((user)=>{return {...user,password:e.target.value}})
   };
-  const usernameInputHandler = (e) => {
-    setUserName(e.target.value);
+  const emailInputHandler = (e) => {
+    setUser((user)=>{return {...user,email:e.target.value}})
   };
-  const logInHandler = (e) => {
-    axios
-      .post("/user/logIn", { username, password })
-      .then((result) => result.data)
-      .then((user) => {
-        setUser(user);
-        navigate('/me')
-      })
-      .catch((error) => console.error(error));
+  const logInHandler = async () => {
+    try {
+      const userData= await signInWithEmailAndPassword(auth, user.email, user.password)
+      navigate('/me')
+    } catch (error) {
+      console.error(error)
+    }
   };
   return (
     <div className="signUpContainer">
       <form className="signUpInputs">
         <Person fontSize="inherit" />
         <input
-          onChange={usernameInputHandler}
+          onChange={emailInputHandler}
           type="text"
           placeholder="Username.."
         ></input>
@@ -40,9 +40,7 @@ function LogIn({ setUser }) {
           placeholder="Password.."
         ></input>
         <Button
-          onClick={(e) => {
-            logInHandler(e);
-          }}
+          onClick={logInHandler}
           className="logInButton"
         >
           Log In
