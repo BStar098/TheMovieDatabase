@@ -12,20 +12,24 @@ import {
   SkipPreviousOutlined,
   Favorite,
 } from "@mui/icons-material";
+import { collection, addDoc, setDoc } from "firebase/firestore"; 
+import { auth, db } from "../config/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-function Header({ user}) {
+function Header() {
   const navigation = useNavigate();
   const movieId = useParams().movieId;
   const [navigationBugCatcher, setNavigationBugCatcher] = useState("next");
   const [movie, setMovie] = useState({});
   const [movieBackground, setMovieBackground] = useState({});
   const [moviePoster, setMoviePoster] = useState("");
+  const [user, loading] = useAuthState(auth)
+
 
   useEffect(() => {
     axios
       .get(
-        `https://api.themoviedb.org/3/movie/${movieId}${apiKey}&language=en-US
-    `
+        `https://api.themoviedb.org/3/movie/${movieId}${apiKey}&language=en-US`
       )
       .then((movie) => {
         setMovie(movie.data);
@@ -34,7 +38,6 @@ function Header({ user}) {
         } else {
           setMoviePoster(imageNotFound);
         }
-
         if (movie.data.backdrop_path)
           setMovieBackground({
             backgroundImage: `url(${imageUrl}${movie.data.backdrop_path})`,
@@ -51,22 +54,18 @@ function Header({ user}) {
           : navigation(`/${Number(movieId) - 1}`);
       });
   }, [movieId]);
-  const addMovieToFavorites = () => {
-    if (user.data) {
-      axios
-        .put(`/user/${user.data}/${movieId}`)
-        .then(() => {
-          alert(`${movie.title} was successfully added to favorites`);
-        })
-        .catch(() => alert(`${movie.title} is already in your favorites list`));
-    } else {
-      axios
-        .put(`/user/${user.username}/${movieId}`)
-        .then(() => {
-          alert(`${movie.title} was successfully added to favorites`);
-        })
-        .catch(() => alert(`${movie.title} is already in your favorites list`));
-    }
+
+
+  const addMovieToFavorites = async () => {
+  try {
+     await addDoc(collection(db,"favorites"),{
+      userId:user.uid,
+      movieId:movieId
+    })
+    alert(`The movie${movie.title} was added to favorites!`)
+  } catch (error) {
+    console.error(error)
+  }
   };
 
   return (

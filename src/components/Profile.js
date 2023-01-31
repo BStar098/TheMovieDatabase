@@ -1,22 +1,50 @@
-import React from "react";
-import axios from "axios";
-import { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useState} from "react";
 import "../styles/Profile/Profile.css";
 import profileBg from "../styles/profileBg.svg";
 import profileLogo from "../styles/profileLogo.jpg";
 import { DeleteForever } from "@mui/icons-material";
 import { imageUrl } from "./MoviesGrid";
-import { Link, Navigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { apiKey } from "../App";
-import { auth } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import {useAuthState} from 'react-firebase-hooks/auth'
+import { collection, query, where, getDocs, deleteDoc,doc } from "firebase/firestore";
+import axios from "axios";
 
 function Profile() {
-  const [userName, setUserName] = useState("");
-  const [favorites, setFavorites] = useState([]);
   const [moviesArray, setMoviesArray] = useState([]);
+  const [user] = useAuthState(auth)
 
-  const [user,loading] = useAuthState(auth)
+  const getUserFavorites = async () => {
+    try {
+      const userFavoritesQuery = query(collection(db,"favorites"), where("userId","==",user.uid))
+      const userFavorites = await getDocs(userFavoritesQuery)
+      userFavorites.forEach((favorite)=> axios.get(`https://api.themoviedb.org/3/movie/${favorite.data().movieId}${apiKey}&language=en-US`)
+      .then((movie)=>{setMoviesArray((movies)=>[...movies,movie.data])}) )
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const deleteFavoriteFromUser = async (movieId, userId) => {
+    try {
+      const favoritesRef = collection(db,"favorites")
+      const favoriteQuery= query(favoritesRef, where("movieId", "==", String(movieId)),where("userId", "==",userId))
+      const favoritesToDelete = await getDocs(favoriteQuery)
+      favoritesToDelete.forEach(async (favorite)=> await deleteDoc(doc(db,"favorites", favorite.id)))
+      setMoviesArray((movies)=>movies.filter((movie)=>movie.id!==movieId))
+      alert('The movie was removed from favorites')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(()=>{
+    if(user?.uid){
+      getUserFavorites()
+    }
+  },[user?.uid])
 
   return (
     <div className="profileContainer">
@@ -34,16 +62,16 @@ function Profile() {
           <h1>{user?.email.split('@')[0].toUpperCase()}'s Favorites</h1>
         </div>
         <div className="favoritesContainer">
-          {moviesArray.length === favorites.length ? (
+          {moviesArray.length ? (
             moviesArray.map((el) => {
               return (
                 <Link
-                  key={`${userName}.${el.id}`}
+                  key={el.id}
                   className="movie"
                   to={`/${el.id}`}
                 >
                   <div className="movieProfileContainer">
-                    <Link to="">
+                    <Link onClick={()=>{deleteFavoriteFromUser(el.id, user.uid)}} to="">
                       <DeleteForever
                         id={el.id}
                         className="deleteIcon"
@@ -61,7 +89,7 @@ function Profile() {
                     </div>
                   </div>
                 </Link>
-              );
+              )
             })
           ) : (
             <></>
