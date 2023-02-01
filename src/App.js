@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { useLocation, useNavigate } from "react-router";
 
+
 export const apiKey = "?api_key=bab35148fb4955596b39e5a91d7a7858";
 
 function App() {

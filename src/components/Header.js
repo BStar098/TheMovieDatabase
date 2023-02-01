@@ -12,7 +12,7 @@ import {
   SkipPreviousOutlined,
   Favorite,
 } from "@mui/icons-material";
-import { collection, addDoc, setDoc } from "firebase/firestore"; 
+import { collection, addDoc} from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -23,8 +23,7 @@ function Header() {
   const [movie, setMovie] = useState({});
   const [movieBackground, setMovieBackground] = useState({});
   const [moviePoster, setMoviePoster] = useState("");
-  const [user, loading] = useAuthState(auth)
-
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     axios
@@ -55,17 +54,16 @@ function Header() {
       });
   }, [movieId]);
 
-
   const addMovieToFavorites = async () => {
-  try {
-     await addDoc(collection(db,"favorites"),{
-      userId:user.uid,
-      movieId:movieId
-    })
-    alert(`The movie${movie.title} was added to favorites!`)
-  } catch (error) {
-    console.error(error)
-  }
+    try {
+      await addDoc(collection(db, "favorites"), {
+        userId: user.uid,
+        movieId: movieId,
+      });
+      alert(`The movie${movie.title} was added to favorites!`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
