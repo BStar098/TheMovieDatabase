@@ -12,12 +12,13 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { apiKey } from "../App";
 import { auth, db } from "../config/firebase";
+import axios from "axios";
 
 const initialState = {
   userData: {},
-  userFavoritesIds: [],
-  userFavoritesMovies: [],
+  userFavorites: [],
 };
 export const signUp = createAsyncThunk("SIGN_UP", async (userData) => {
   const { email, password } = userData;
@@ -42,11 +43,12 @@ export const addToFavorites = createAsyncThunk(
   "ADD_TO_FAVORITES",
   async (movieIdAndUserId) => {
     const { userId, movieId } = movieIdAndUserId;
+    const { data } = await axios.get(
+      //MOVIE DATA
+      `https://api.themoviedb.org/3/movie/${movieId}${apiKey}&language=en-US`
+    );
     try {
-      await addDoc(collection(db, "favorites"), {
-        userId: userId,
-        movieId: movieId,
-      });
+      await addDoc(collection(db, "favorites"), { ...data, userId });
       return movieId;
     } catch (error) {
       throw error;
@@ -61,8 +63,8 @@ export const removeFromFavorites = createAsyncThunk(
     try {
       const favoriteQuery = query(
         collection(db, "favorites"),
-        where("movieId", "==", String(movieId)),
-        where("userId", "==", userId)
+        where("id", "==", movieId),
+        where("userId", "==", String(userId))
       );
       const favoritesToDelete = await getDocs(favoriteQuery);
       favoritesToDelete.forEach(
@@ -77,7 +79,22 @@ export const removeFromFavorites = createAsyncThunk(
 
 export const getAllFavorites = createAsyncThunk(
   "GET_ALL_FAVORITES",
-  async (userId) => {}
+  async (userId) => {
+    try {
+      const movies = [];
+      const favoritesQuery = query(
+        collection(db, "favorites"),
+        where("userId", "==", userId)
+      );
+      const favorites = await getDocs(favoritesQuery);
+      favorites.forEach((movie) => {
+        movies.push(movie.data());
+      });
+      return movies;
+    } catch (error) {
+      throw error;
+    }
+  }
 );
 
 export const userSlice = createSlice({
@@ -104,7 +121,8 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(addToFavorites.fulfilled, (state, action) => {
-      state.userFavoritesIds = [...state.userFavoritesIds, action.payload];
+      alert("The movie was successfully added to favorites!");
+      //state.favoritesIds = [...state.favoritesIds, action.payload];
     });
     builder.addCase(addToFavorites.rejected, () => {
       alert("There has been an error when adding the movie to favorites");
@@ -114,10 +132,10 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(removeFromFavorites.fulfilled, (state, action) => {
-      const { movieId } = action.payload;
-      state.userFavoritesMovies = state.userFavoritesMovies.filter(
-        (movie) => movie.id !== movieId
+      state.userFavorites = state.userFavorites.filter(
+        (movie) => movie.id !== action.payload
       );
+      alert("The movie was successfully removed!");
     });
     builder.addCase(removeFromFavorites.rejected, () => {
       alert(
@@ -126,6 +144,13 @@ export const userSlice = createSlice({
       throw new Error(
         "There has been an error when removing the movie from your favorites"
       );
+    });
+
+    builder.addCase(getAllFavorites.fulfilled, (state, action) => {
+      state.userFavorites = action.payload;
+    });
+    builder.addCase(getAllFavorites.rejected, () => {
+      throw new Error("We couldn't retrieve your favorites.");
     });
   },
 });

@@ -18,58 +18,17 @@ import {
   doc,
 } from "firebase/firestore";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllFavorites, removeFromFavorites } from "../states/users";
 
 function Profile() {
-  const [moviesArray, setMoviesArray] = useState([]);
+  const dispatch = useDispatch();
+  const { userFavorites } = useSelector((state) => state.users);
   const [user] = useAuthState(auth);
-
-  const getUserFavorites = async () => {
-    try {
-      const userFavoritesQuery = query(
-        collection(db, "favorites"),
-        where("userId", "==", user.uid)
-      );
-      const userFavorites = await getDocs(userFavoritesQuery);
-      userFavorites.forEach((favorite) =>
-        axios
-          .get(
-            `https://api.themoviedb.org/3/movie/${
-              favorite.data().movieId
-            }${apiKey}&language=en-US`
-          )
-          .then((movie) => {
-            setMoviesArray((movies) => [...movies, movie.data]);
-          })
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const deleteFavoriteFromUser = async (movieId, userId) => {
-    try {
-      const favoritesRef = collection(db, "favorites");
-      const favoriteQuery = query(
-        favoritesRef,
-        where("movieId", "==", String(movieId)),
-        where("userId", "==", userId)
-      );
-      const favoritesToDelete = await getDocs(favoriteQuery);
-      favoritesToDelete.forEach(
-        async (favorite) => await deleteDoc(doc(db, "favorites", favorite.id))
-      );
-      setMoviesArray((movies) =>
-        movies.filter((movie) => movie.id !== movieId)
-      );
-      alert("The movie was removed from favorites");
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
     if (user?.uid) {
-      getUserFavorites();
+      dispatch(getAllFavorites(user.uid));
     }
   }, [user?.uid]);
 
@@ -89,14 +48,19 @@ function Profile() {
           <h1>{user?.email.split("@")[0].toUpperCase()}'s Favorites</h1>
         </div>
         <div className="favoritesContainer">
-          {moviesArray.length ? (
-            moviesArray.map((el) => {
+          {userFavorites?.length ? (
+            userFavorites.map((el) => {
               return (
                 <Link key={el.id} className="movie" to={`/${el.id}`}>
                   <div className="movieProfileContainer">
                     <Link
                       onClick={() => {
-                        deleteFavoriteFromUser(el.id, user.uid);
+                        dispatch(
+                          removeFromFavorites({
+                            movieId: el.id,
+                            userId: user.uid,
+                          })
+                        );
                       }}
                       to=""
                     >

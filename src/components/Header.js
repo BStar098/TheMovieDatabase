@@ -12,11 +12,13 @@ import {
   SkipPreviousOutlined,
   Favorite,
 } from "@mui/icons-material";
-import { collection, addDoc} from "firebase/firestore";
-import { auth, db } from "../config/firebase";
+import { auth } from "../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useDispatch } from "react-redux";
+import { addToFavorites } from "../states/users";
 
 function Header() {
+  const dispatch = useDispatch();
   const navigation = useNavigate();
   const movieId = useParams().movieId;
   const [navigationBugCatcher, setNavigationBugCatcher] = useState("next");
@@ -55,15 +57,7 @@ function Header() {
   }, [movieId]);
 
   const addMovieToFavorites = async () => {
-    try {
-      await addDoc(collection(db, "favorites"), {
-        userId: user.uid,
-        movieId: movieId,
-      });
-      alert(`The movie${movie.title} was added to favorites!`);
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(addToFavorites({ movieId: movieId, userId: user.uid }))
   };
 
   return (
