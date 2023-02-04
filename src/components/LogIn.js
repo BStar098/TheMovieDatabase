@@ -3,45 +3,48 @@ import { useNavigate } from "react-router";
 import "../styles/UserAccess/UserAccess.css";
 import { Person } from "@mui/icons-material";
 import { Button } from "@mui/material";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { logIn } from "../states/users";
 
-function LogIn({ setUser }) {
+function LogIn() {
   const navigate = useNavigate();
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const passwordInputHandler = (e) => {
-    setPassword(e.target.value);
-  };
-  const usernameInputHandler = (e) => {
-    setUserName(e.target.value);
-  };
-  const logInHandler = (e) => {
-    axios
-      .post("/user/logIn", { username, password })
-      .then((result) => result.data)
-      .then((user) => {
-        setUser(user);
-        navigate('/me')
-      })
-      .catch((error) => console.error(error));
+  const dispatch = useDispatch();
+  const [user, setUser] = useState({ email: "", password: "" });
+
+  const loginHandler = (e) => {
+    setUser((user) => {
+      return { ...user, [e.target.id]: e.target.value };
+    });
   };
   return (
     <div className="signUpContainer">
       <form className="signUpInputs">
         <Person fontSize="inherit" />
         <input
-          onChange={usernameInputHandler}
+          id="email"
+          value={user.email}
+          onChange={loginHandler}
           type="text"
           placeholder="Username.."
         ></input>
         <input
-          onChange={passwordInputHandler}
+          id="password"
+          value={user.password}
+          onChange={loginHandler}
           type="password"
           placeholder="Password.."
         ></input>
         <Button
-          onClick={(e) => {
-            logInHandler(e);
+          onClick={() => {
+            dispatch(logIn(user))
+              .then(() => {
+                navigate("/me");
+              })
+              .catch(() => {
+                setUser((user) => {
+                  return { email: "", password: "" };
+                });
+              });
           }}
           className="logInButton"
         >

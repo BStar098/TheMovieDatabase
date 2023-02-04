@@ -2,43 +2,46 @@ import { React, useState } from "react";
 import "../styles/UserAccess/UserAccess.css";
 import { Button } from "@mui/material";
 import { Person } from "@mui/icons-material";
-import axios from "axios";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { signUp } from "../states/users";
 
 function SignUp() {
   const navigate = useNavigate();
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const passwordInputHandler = (e) => {
-    setPassword(e.target.value);
-  };
-  const usernameInputHandler = (e) => {
-    setUserName(e.target.value);
-  };
+  const dispatch = useDispatch();
+  const [user, setUser] = useState({ email: "", password: "" });
 
   const signUpHandler = (e) => {
-    axios
-      .post("/user/signUp", { username, password })
-      .then(() => {
-        navigate("/logIn");
-      })
-      .catch((error) => console.error(error));
+    console.log(user);
+    setUser((user) => {
+      return { ...user, [e.target.id]: e.target.value };
+    });
   };
+
   return (
     <div className="signUpContainer">
       <form className="signUpInputs">
         <Person fontSize="inherit" />
         <input
-          onChange={usernameInputHandler}
+          id="email"
+          onChange={signUpHandler}
           type="text"
-          placeholder="Username.."
+          placeholder="E-mail.."
         ></input>
         <input
-          onChange={passwordInputHandler}
+          id="password"
+          onChange={signUpHandler}
           type="password"
           placeholder="Password.."
         ></input>
-        <Button onClick={signUpHandler} className="signUpButton">
+        <Button
+          onClick={() => {
+            dispatch(signUp(user)).then(() => {
+              navigate("/me");
+            });
+          }}
+          className="signUpButton"
+        >
           Sign Up
         </Button>
       </form>

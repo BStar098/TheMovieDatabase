@@ -1,56 +1,36 @@
-import React from "react";
-import axios from "axios";
-import { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import "../styles/Profile/Profile.css";
 import profileBg from "../styles/profileBg.svg";
 import profileLogo from "../styles/profileLogo.jpg";
 import { DeleteForever } from "@mui/icons-material";
 import { imageUrl } from "./MoviesGrid";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { apiKey } from "../App";
+import { auth, db } from "../config/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllFavorites, removeFromFavorites } from "../states/users";
 
 function Profile() {
-  const [userName, setUserName] = useState("");
-  const [favorites, setFavorites] = useState([]);
-  const [moviesArray, setMoviesArray] = useState([]);
+  const dispatch = useDispatch();
+  const { userFavorites } = useSelector((state) => state.users);
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
-    axios.get("/user/me").then((username) => {
-      setUserName(username.data.toString());
-    });
-  }, []);
-  useEffect(() => {
-    if (userName) {
-      axios.get(`/user/${userName}/favorites`).then((favorites) => {
-        if (favorites) {
-          setFavorites(favorites.data);
-        }
-      });
+    if (user?.uid) {
+      dispatch(getAllFavorites(user.uid));
     }
-  }, [userName]);
-  useEffect(() => {
-    favorites.map((movieId) => {
-      axios
-        .get(
-          `https://api.themoviedb.org/3/movie/${movieId}${apiKey}&language=en-US
-      `
-        )
-        .then((movie) => {
-          setMoviesArray((moviesArray) => [...moviesArray, movie.data]);
-        });
-    });
-  }, [favorites]);
-
-  const deleteHandler = (e) => {
-    axios
-      .put(`/user/favorites/${userName}/${e.target.id}`)
-      .then((favorites) => favorites.data)
-      .then((favoritesArray) => {
-        setFavorites(favoritesArray);
-        window.location.reload();
-        alert("The movie was removed successfully");
-      });
-  };
+  }, [user?.uid]);
 
   return (
     <div className="profileContainer">
@@ -60,29 +40,31 @@ function Profile() {
           style={{ backgroundImage: `url(${profileBg})` }}
         >
           <img src={profileLogo} alt="profileLogo"></img>
-          <h1>{userName.toUpperCase()}</h1>
+          <h1>{user?.email.split("@")[0].toUpperCase()}</h1>
         </div>
       </div>
       <div className="profileFavorites">
         <div className="favoritesTitle">
-          <h1>{userName.toUpperCase()}'s Favorites</h1>
+          <h1>{user?.email.split("@")[0].toUpperCase()}'s Favorites</h1>
         </div>
         <div className="favoritesContainer">
-          {moviesArray.length === favorites.length ? (
-            moviesArray.map((el) => {
+          {userFavorites?.length ? (
+            userFavorites.map((el) => {
               return (
-                <Link
-                  key={`${userName}.${el.id}`}
-                  className="movie"
-                  to={`/${el.id}`}
-                >
+                <Link key={el.id} className="movie" to={`/${el.id}`}>
                   <div className="movieProfileContainer">
-                    <Link to="">
-                      <DeleteForever
-                        onClick={deleteHandler}
-                        id={el.id}
-                        className="deleteIcon"
-                      />
+                    <Link
+                      onClick={() => {
+                        dispatch(
+                          removeFromFavorites({
+                            movieId: el.id,
+                            userId: user.uid,
+                          })
+                        );
+                      }}
+                      to=""
+                    >
+                      <DeleteForever id={el.id} className="deleteIcon" />
                     </Link>
                     <img
                       className="gridImg"
