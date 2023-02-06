@@ -1,23 +1,13 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
 import "../styles/Profile/Profile.css";
 import profileBg from "../styles/profileBg.svg";
 import profileLogo from "../styles/profileLogo.jpg";
 import { DeleteForever } from "@mui/icons-material";
 import { imageUrl } from "./MoviesGrid";
 import { Link } from "react-router-dom";
-import { apiKey } from "../App";
-import { auth, db } from "../config/firebase";
+import { auth } from "../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
-import axios from "axios";
+
 import { useSelector, useDispatch } from "react-redux";
 import { getAllFavorites, removeFromFavorites } from "../states/users";
 
