@@ -1,38 +1,58 @@
 .signUpContainer
-    height: 100vh
     display: flex
     flex-direction: column
     justify-content: center
     align-items: center
     background: rgb(3,37,65)
+    height: 100vh
 .signUpInputs
     height: fit-content
-    width: fit-content
     display: flex
     flex-direction: column
-    gap: 20px
+    justify-content: center
+    padding: 0% 2% 0% 2%
     border-radius: 20px
-    padding: 1%
     background: #033f70
     box-shadow: 6px 6px 3px 2px #00000051
-    >button
-        background: rgb(3,37,65)
-        color: white
-        font-size: 110%
-    >button:hover
-        background: #0860a8
-    >input
+    >.input
         font-size: 150%
         border-radius: 5px
         background: rgb(255, 255, 255)
         border: none
         text-shadow: 2px 2px #01000047
+        margin-top: 5%
     >input::placeholder
         color: rgba(0, 0, 0, 0.649)
     >input:focus
         outline: none
+    >.errorContainer
+        color: white
+        background: #ff000066
+        padding: 1%
+        text-align: center
+        border-radius: 5px
+        font-size: 80%
+        font-weight: 300
+        margin-top: 2%
+        
+    >.logInButton
+        background: rgb(3, 37, 65)
+        cursor: pointer
+        transition: 0.3s
+        outline: 0
+        border: 0 
+        padding: 4%
+        color: white
+        font-size: 110%
+        border-radius: 20px
+        margin-top: 5%
+    >.logInButton:hover
+        background: #0860a8
+    >.logInButton:active
+        transform: scale(0.8)
     >svg
-        height: 65%
+        height: 40%
         width: 100%
         color: white
         border-radius: 20px
+    
