@@ -16,8 +16,6 @@ function SignUp() {
     formState: { errors },
   } = useForm();
 
-  
-
   return (
     <div className="signUpContainer">
       <form
@@ -40,7 +38,11 @@ function SignUp() {
               value: 34,
               message: "E-mails must have a maximum length of 34 characters.",
             },
-            pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+            pattern: {
+              value:
+                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+              message: "That's not a valid e-mail!",
+            },
           })}
           className="input"
           type="text"
