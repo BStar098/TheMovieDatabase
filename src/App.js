@@ -54,7 +54,7 @@ function App() {
   }, [inputValue, page]);
 
   return (
-    <>
+    <div className='rootContainer'>
       <SearchAppBar
         searchHandler={searchHandler}
         setPage={setPage}
@@ -78,7 +78,7 @@ function App() {
         setPage={setPage}
         page={page}
       />
-    </>
+    </div>
   );
 }
 

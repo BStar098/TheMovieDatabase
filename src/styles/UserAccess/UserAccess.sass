@@ -1,10 +1,10 @@
 .signUpContainer
     display: flex
     flex-direction: column
-    justify-content: center
     align-items: center
     background: rgb(3,37,65)
-    height: 100vh
+    height: 85vh
+    padding-top: 3%
 .signUpInputs
     height: fit-content
     display: flex
@@ -34,7 +34,6 @@
         font-size: 80%
         font-weight: 300
         margin-top: 2%
-        
     >.logInButton
         background: rgb(3, 37, 65)
         cursor: pointer
@@ -51,8 +50,13 @@
     >.logInButton:active
         transform: scale(0.8)
     >svg
-        height: 40%
-        width: 100%
+        height: 50%
+        width: 80%
         color: white
         border-radius: 20px
+        align-self: center
     
+@media screen and (max-height: 470px)
+    .signUpContainer
+        height: fit-content
+        padding-top: 0%
