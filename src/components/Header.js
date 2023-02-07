@@ -63,7 +63,7 @@ function Header() {
   return (
     <>
       <div className="movieDetailsContainer" style={movieBackground}>
-        <div>
+        <div className='moviePosterContainer'>
           <Favorite className="favorite" onClick={addMovieToFavorites} />
           <img src={moviePoster} alt="movieDetailsPoster"></img>
         </div>

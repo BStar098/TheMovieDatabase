@@ -7,7 +7,6 @@ import { imageUrl } from "./MoviesGrid";
 import { Link } from "react-router-dom";
 import { auth } from "../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-
 import { useSelector, useDispatch } from "react-redux";
 import { getAllFavorites, removeFromFavorites } from "../states/users";
 

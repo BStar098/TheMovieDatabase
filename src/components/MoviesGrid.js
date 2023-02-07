@@ -6,7 +6,6 @@ export const imageUrl = "https://image.tmdb.org/t/p/original/";
 function MoviesGrid({ results, user }) {
   return (
     <>
-      <h1 className="title">TMDB</h1>
       <div id="moviesContainer">
         {results ? (
           results.map((el) => {

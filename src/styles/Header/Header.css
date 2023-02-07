@@ -1,24 +1,24 @@
 .movieDetailsContainer {
   display: flex;
-  height: 100vh;
-  align-items: center;
+  height: 85vh;
   justify-content: center;
 }
 .movieDetailsContainer > div {
   height: 70%;
+  margin-top: 2%;
   position: relative;
 }
 .movieDetailsContainer > div > .favorite {
-  transform: scale(4);
+  transform: scale(3);
   position: absolute;
   top: 7%;
-  left: 83.5%;
+  left: 10%;
   color: rgba(167, 16, 16, 0.5725490196);
   cursor: pointer;
   transition: 0.5s ease;
 }
 .movieDetailsContainer > div > .favorite:hover {
-  transform: scale(4.5);
+  transform: scale(3.5);
   transition: 0.5s ease;
   color: rgba(221, 16, 16, 0.5725490196);
 }
@@ -44,10 +44,10 @@
 }
 .movieDetails > :first-child {
   position: absolute;
-  top: 18%;
+  top: 0%;
 }
 .movieDetails > :nth-of-type(2) {
-  margin-top: 35%;
+  margin-top: 25%;
 }
 .movieDetails > span {
   width: -webkit-fit-content;
@@ -76,7 +76,7 @@
   gap: 8%;
   position: absolute;
   width: 100%;
-  bottom: 5%;
+  bottom: 7%;
 }
 .buttonsHeader > a {
   text-decoration: none;
@@ -88,4 +88,52 @@
 }
 .buttonsHeader a > button:hover {
   background: #04345b;
+}
+
+@media screen and (max-width: 1000px) {
+  .movieDetailsContainer {
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    flex-direction: column;
+  }
+  .movieDetailsContainer > .moviePosterContainer {
+    display: flex;
+    justify-content: center;
+  }
+  .movieDetailsContainer > .moviePosterContainer > .favorite {
+    top: 10%;
+    left: 30%;
+  }
+  .movieDetailsContainer > .moviePosterContainer > img {
+    height: 30%;
+    width: 50%;
+  }
+  .movieDetailsContainer > div {
+    width: 100%;
+  }
+  .movieDetails {
+    margin-left: 0%;
+  }
+  .movieDetails > :first-child {
+    position: static;
+    align-self: center;
+    margin-bottom: 2%;
+  }
+  .movieDetails > :nth-of-type(2) {
+    margin-top: 0%;
+    margin-bottom: 5%;
+    align-self: center;
+  }
+  .buttonsHeader {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    background: rgb(3, 37, 65);
+  }
+  .buttonsHeader a > button {
+    font-size: 70%;
+    background: rgb(11, 65, 108);
+  }
 }/*# sourceMappingURL=Header.css.map */
