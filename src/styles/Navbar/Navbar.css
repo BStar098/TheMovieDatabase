@@ -6,17 +6,19 @@
   gap: 1%;
 }
 .userButtonsContainer > a {
-  width: 10%;
+  white-space: nowrap;
   height: 100%;
   text-decoration: none;
 }
 .userButtonsContainer a > button {
   background: #033f70;
   color: white;
-  padding: 3%;
-  font-size: 110%;
-  width: 100%;
 }
 .userButtonsContainer a > button:hover {
   background: #055597;
+}
+
+.tmdbNavbar {
+  height: 15vh;
+  background: rgb(3, 37, 65);
 }/*# sourceMappingURL=Navbar.css.map */
