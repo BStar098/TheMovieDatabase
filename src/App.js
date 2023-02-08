@@ -14,14 +14,11 @@ import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { useLocation, useNavigate } from "react-router";
 
-
 export const apiKey = "?api_key=bab35148fb4955596b39e5a91d7a7858";
 
 function App() {
   const currentLocation = useLocation();
   const navigation = useNavigate();
-
-  const [user, setUser] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
@@ -32,7 +29,7 @@ function App() {
       navigation("/");
     }
     setInputValue(e.target.value.replace(" ", "+"));
-  }; 
+  };
   useEffect(() => {
     if (inputValue) {
       axios
@@ -54,20 +51,12 @@ function App() {
   }, [inputValue, page]);
 
   return (
-    <div className='rootContainer'>
-      <SearchAppBar
-        searchHandler={searchHandler}
-        setPage={setPage}
-        user={user}
-        setUser={setUser}
-      />
+    <div className="rootContainer">
+      <SearchAppBar searchHandler={searchHandler} setPage={setPage} />
       <Routes>
-        <Route
-          path="/"
-          element={<MoviesGrid {...movies} user={user} />}
-        ></Route>
-        <Route path="/:movieId" element={<Header user={user} />}></Route>
-        <Route path="/logIn" element={<LogIn setUser={setUser} />}></Route>
+        <Route path="/" element={<MoviesGrid {...movies} />}></Route>
+        <Route path="/:movieId" element={<Header />}></Route>
+        <Route path="/logIn" element={<LogIn />}></Route>
         <Route path="/signUp" element={<SignUp />}></Route>
         <Route path="/me" element={<Profile />}></Route>
         <Route path="404" element={<NotFound />}></Route>

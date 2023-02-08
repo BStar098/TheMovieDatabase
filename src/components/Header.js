@@ -57,13 +57,13 @@ function Header() {
   }, [movieId]);
 
   const addMovieToFavorites = async () => {
-    dispatch(addToFavorites({ movieId: movieId, userId: user.uid }))
+    dispatch(addToFavorites({ movieId: movieId, userId: user.uid }));
   };
 
   return (
     <>
       <div className="movieDetailsContainer" style={movieBackground}>
-        <div className='moviePosterContainer'>
+        <div className="moviePosterContainer">
           <Favorite className="favorite" onClick={addMovieToFavorites} />
           <img src={moviePoster} alt="movieDetailsPoster"></img>
         </div>

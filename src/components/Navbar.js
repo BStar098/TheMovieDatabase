@@ -65,7 +65,11 @@ export default function SearchAppBar({ searchHandler, setPage }) {
     }
   };
   return (
-    <AppBar className='tmdbNavbar' position="sticky" style={{ background: "rgb(3,37,65)" }}>
+    <AppBar
+      className="tmdbNavbar"
+      position="sticky"
+      style={{ background: "rgb(3,37,65)" }}
+    >
       <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
         <Link to="/">
           <img
