@@ -7,7 +7,6 @@
 }
 .profileContainer > .profileTitle {
   width: 100%;
-  height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
   background: rgb(1, 180, 228);
@@ -55,8 +54,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 100px;
+  gap: 20px;
   width: 100%;
+  padding: 1%;
 }
 .favoritesContainer > a {
   text-decoration: none;

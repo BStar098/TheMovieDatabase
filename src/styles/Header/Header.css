@@ -35,7 +35,6 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
   width: 40%;
@@ -50,7 +49,6 @@
   margin-top: 25%;
 }
 .movieDetails > span {
-  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   background: rgba(0, 0, 0, 0.3);
@@ -92,7 +90,6 @@
 
 @media screen and (max-width: 1000px) {
   .movieDetailsContainer {
-    height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
     flex-direction: column;
@@ -131,6 +128,7 @@
     position: relative;
     width: 100%;
     background: rgb(3, 37, 65);
+    padding: 2%;
   }
   .buttonsHeader a > button {
     font-size: 70%;
