@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 export const imageUrl = "https://image.tmdb.org/t/p/original/";
 
-function MoviesGrid({ results, user }) {
+function MoviesGrid({ results }) {
   return (
     <>
       <div id="moviesContainer">
