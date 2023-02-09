@@ -1,30 +1,33 @@
 .movieDetailsContainer {
   display: flex;
-  height: 85vh;
-  justify-content: center;
+  height: 85%;
+  width: 100%;
 }
-.movieDetailsContainer > div {
-  height: 70%;
-  margin-top: 2%;
+.movieDetailsContainer > .moviePosterContainer {
+  display: flex;
+  justify-content: flex-end;
+  height: 100%;
+  width: 40%;
+  margin: 2%;
   position: relative;
 }
-.movieDetailsContainer > div > .favorite {
+.movieDetailsContainer > .moviePosterContainer > .favorite {
   transform: scale(3);
-  position: absolute;
-  top: 7%;
+  position: relative;
+  top: 5%;
   left: 10%;
   color: rgba(167, 16, 16, 0.5725490196);
   cursor: pointer;
   transition: 0.5s ease;
 }
-.movieDetailsContainer > div > .favorite:hover {
+.movieDetailsContainer > .moviePosterContainer > .favorite:hover {
   transform: scale(3.5);
   transition: 0.5s ease;
   color: rgba(221, 16, 16, 0.5725490196);
 }
-.movieDetailsContainer > div > img {
-  width: 100%;
-  height: 100%;
+.movieDetailsContainer > .moviePosterContainer > img {
+  width: 70%;
+  height: 80%;
   border-radius: 5% 5% 5% 5%;
   padding-top: 1%;
   -o-object-fit: cover;
@@ -33,20 +36,13 @@
 
 .movieDetails {
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  height: -moz-fit-content;
-  height: fit-content;
-  width: 40%;
-  margin-left: 2%;
+  height: 50%;
+  width: 60%;
+  margin: 3%;
   color: white;
-}
-.movieDetails > :first-child {
-  position: absolute;
-  top: 0%;
-}
-.movieDetails > :nth-of-type(2) {
-  margin-top: 25%;
+  gap: 5%;
+  justify-content: flex-start;
 }
 .movieDetails > span {
   width: -moz-fit-content;
@@ -72,15 +68,15 @@
   display: flex;
   justify-content: center;
   gap: 8%;
-  position: absolute;
   width: 100%;
-  bottom: 7%;
+  background: rgb(3, 37, 65);
+  padding-bottom: 2%;
 }
 .buttonsHeader > a {
   text-decoration: none;
 }
 .buttonsHeader a > button {
-  background: rgb(3, 37, 65);
+  background: rgb(11, 65, 108);
   font-size: 110%;
   font-weight: 400;
 }
@@ -90,27 +86,32 @@
 
 @media screen and (max-width: 1000px) {
   .movieDetailsContainer {
+    flex-direction: column;
     height: -moz-fit-content;
     height: fit-content;
-    flex-direction: column;
+    width: 100%;
   }
   .movieDetailsContainer > .moviePosterContainer {
     display: flex;
     justify-content: center;
+    width: -moz-fit-content;
+    width: fit-content;
+    align-self: center;
+    margin: 0%;
   }
   .movieDetailsContainer > .moviePosterContainer > .favorite {
-    top: 10%;
-    left: 30%;
+    position: absolute;
+    left: 15%;
   }
   .movieDetailsContainer > .moviePosterContainer > img {
-    height: 30%;
-    width: 50%;
-  }
-  .movieDetailsContainer > div {
-    width: 100%;
+    width: 80%;
+    min-height: 500px;
+    height: 100%;
   }
   .movieDetails {
     margin-left: 0%;
+    width: 100%;
+    height: 100%;
   }
   .movieDetails > :first-child {
     position: static;
@@ -121,17 +122,5 @@
     margin-top: 0%;
     margin-bottom: 5%;
     align-self: center;
-  }
-  .buttonsHeader {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    width: 100%;
-    background: rgb(3, 37, 65);
-    padding: 2%;
-  }
-  .buttonsHeader a > button {
-    font-size: 70%;
-    background: rgb(11, 65, 108);
   }
 }/*# sourceMappingURL=Header.css.map */
