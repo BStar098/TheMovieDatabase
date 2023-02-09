@@ -1,15 +1,18 @@
 .movieDetailsContainer
-    display: flex
-    height: 85vh
-    justify-content: center
-    >div
-        height: 70%
-        margin-top: 2%
+    display: flex 
+    height: 85%
+    width: 100%
+    >.moviePosterContainer
+        display: flex
+        justify-content: flex-end
+        height: 100%
+        width: 40%
+        margin: 2%
         position: relative
         >.favorite
             transform: scale(3)
-            position: absolute
-            top: 7%
+            position: relative
+            top: 5%
             left: 10%
             color: #a7101092
             cursor: pointer
@@ -19,24 +22,20 @@
             transition: 0.5s ease
             color: #dd101092
         >img
-            width: 100%
-            height: 100%
+            width: 70%
+            height: 80%
             border-radius: 5% 5% 5% 5% 
             padding-top: 1%
             object-fit: cover
 .movieDetails
     display: flex
-    justify-content: center
     flex-direction: column
-    height: fit-content
-    width: 40%
-    margin-left: 2%
+    height: 50%
+    width: 60%
+    margin: 3%
     color: white
-    >:first-child
-        position: absolute
-        top: 0%
-    >:nth-of-type(2)
-        margin-top: 25%
+    gap: 5%
+    justify-content: flex-start
     >span
         width: fit-content
         background: rgb(0, 0, 0, 0.3)
@@ -57,13 +56,13 @@
     display: flex
     justify-content: center
     gap: 8%
-    position: absolute
     width: 100%
-    bottom: 7%
+    background: rgb(3,37,65)
+    padding-bottom: 2%
     >a
         text-decoration: none
     a>button
-        background: rgb(3,37,65)
+        background: rgb(11, 65, 108)
         font-size: 110%
         font-weight: 400
     a>button:hover
@@ -71,21 +70,27 @@
 
 @media screen and ( max-width:1000px  )
     .movieDetailsContainer
-        height: fit-content
         flex-direction: column
+        height: fit-content
+        width: 100%
         >.moviePosterContainer
             display: flex
             justify-content: center
+            width: fit-content
+            align-self: center
+            margin: 0%
             >.favorite
-                top: 10%
-                left: 30%
+                position: absolute
+                left: 15%
             >img
-                height: 30%
-                width: 50% 
-        >div
-            width: 100%
+               width: 80%
+               min-height: 500px
+               height: 100%
+               
     .movieDetails
         margin-left: 0%
+        width: 100%
+        height: 100%
         >:first-child
             position: static
             align-self: center
@@ -94,15 +99,5 @@
             margin-top: 0%
             margin-bottom: 5%
             align-self: center
-    .buttonsHeader
-        display: flex
-        justify-content: center
-        position: relative
-        width: 100%
-        background: rgb(3,37,65)
-        padding: 2%
-        a>button
-            font-size: 70%
-            background: rgb(11, 65, 108)
-        
+    
                 

@@ -62,11 +62,15 @@ function App() {
         <Route path="404" element={<NotFound />}></Route>
         <Route path="*" element={<Navigate to="404" />}></Route>
       </Routes>
-      <Footer
-        numberOfPages={movies.total_pages}
-        setPage={setPage}
-        page={page}
-      />
+      {currentLocation.pathname === "/" ? (
+        <Footer
+          numberOfPages={movies.total_pages}
+          setPage={setPage}
+          page={page}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
