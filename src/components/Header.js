@@ -26,8 +26,11 @@ function Header() {
   const [movieBackground, setMovieBackground] = useState({});
   const [moviePoster, setMoviePoster] = useState("");
   const [user] = useAuthState(auth);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
     axios
       .get(
         `https://api.themoviedb.org/3/movie/${movieId}${apiKey}&language=en-US`
