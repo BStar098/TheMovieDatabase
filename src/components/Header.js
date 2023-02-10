@@ -16,6 +16,7 @@ import { auth } from "../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch } from "react-redux";
 import { addToFavorites } from "../states/users";
+import Skeleton from "react-loading-skeleton";
 
 function Header() {
   const dispatch = useDispatch();
@@ -30,7 +31,9 @@ function Header() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+
+    }, 1000);
+
     axios
       .get(
         `https://api.themoviedb.org/3/movie/${movieId}${apiKey}&language=en-US`
@@ -57,6 +60,7 @@ function Header() {
           ? navigation(`/${Number(movieId) + 1}`)
           : navigation(`/${Number(movieId) - 1}`);
       });
+    setTimeout(() => {}, 2000);
   }, [movieId]);
 
   const addMovieToFavorites = async () => {
@@ -67,8 +71,14 @@ function Header() {
     <>
       <div className="movieDetailsContainer" style={movieBackground}>
         <div className="moviePosterContainer">
-          <Favorite className="favorite" onClick={addMovieToFavorites} />
-          <img src={moviePoster} alt="movieDetailsPoster"></img>
+          {loading ? (
+            <Skeleton height={500} width={350} borderRadius={20} />
+          ) : (
+            <>
+              <Favorite className="favorite" onClick={addMovieToFavorites} />
+              <img src={moviePoster} alt="movieDetailsPoster"></img>
+            </>
+          )}
         </div>
         <div className="movieDetails">
           <span>

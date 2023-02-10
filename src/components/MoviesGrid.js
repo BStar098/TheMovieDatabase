@@ -2,7 +2,10 @@ import "../styles/MoviesGrid/MoviesGrid.css";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
-import 'react-loading-skeleton/dist/skeleton.css'
+
+import "react-loading-skeleton/dist/skeleton.css";
+
+
 export const imageUrl = "https://image.tmdb.org/t/p/original/";
 
 
@@ -20,9 +23,10 @@ function MoviesGrid({ results }) {
         results.map((el) => {
           return (
             <Link key={el.id} className="movie" to={`/${el.id}`}>
-              <div>
+              <div className="moviePosterContainer">
                 {loading ? (
-                  <Skeleton height={304} width={214}  />
+                  <Skeleton height={304} width={214} />
+
                 ) : (
                   <img
                     className="gridImg"
