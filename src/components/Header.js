@@ -31,7 +31,9 @@ function Header() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
+
     }, 1000);
+
     axios
       .get(
         `https://api.themoviedb.org/3/movie/${movieId}${apiKey}&language=en-US`
